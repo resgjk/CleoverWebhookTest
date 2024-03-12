@@ -164,6 +164,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
+@app.get("/ping")
+async def ping():
+    return {"response": "ok"}
+
+
 @app.post(WEBHOOK_PATH)
 async def bot_webhook(update):
     telegram_update = types.Update(**update)
@@ -176,4 +181,4 @@ if __name__ == "__main__":
         format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
     )
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
