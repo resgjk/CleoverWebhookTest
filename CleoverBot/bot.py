@@ -161,7 +161,7 @@ async def lifespan(app: FastAPI):
     await bot.delete_webhook()
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(docs_url=None, redoc_url=None, lifespan=lifespan)
 
 
 @app.get("/ping")
