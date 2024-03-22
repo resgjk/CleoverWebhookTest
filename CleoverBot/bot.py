@@ -7,7 +7,7 @@ from users_core.config import (
     WEBHOOK_DOMAIN,
     WEBHOOK_PATH,
     SSL_KEYFILE,
-    SSL_CERTFILE,
+    SSL_CERTFILE
 )
 
 from db.base import Base
@@ -100,6 +100,11 @@ from fastapi import FastAPI
 import uvicorn
 
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s",
+)
+
 bot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML)
 dp = Dispatcher(storage=MemoryStorage())
 
@@ -181,18 +186,3 @@ async def ping():
 async def bot_webhook(update):
     telegram_update = types.Update(**update)
     await dp.feed_update(bot=bot, update=telegram_update, session_maker=session_maker)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format="%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s",
-    )
-
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=8000,
-        ssl_keyfile=SSL_KEYFILE,
-        ssl_certfile=SSL_CERTFILE,
-    )
