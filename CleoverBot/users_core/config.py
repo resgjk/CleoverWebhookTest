@@ -17,6 +17,8 @@ DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 WEBHOOK_DOMAIN = os.getenv("WEBHOOK_DOMAIN")
 WEBHOOK_PATH = os.getenv("WEBHOOK_PATH")
+SSL_KEYFILE = os.getenv("SSL_KEYFILE")
+SSL_CERTFILE = os.getenv("SSL_CERTFILE")
 
 
 postgres_url = URL.create(
