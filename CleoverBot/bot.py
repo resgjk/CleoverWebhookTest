@@ -1,6 +1,12 @@
 from datetime import datetime
 
-from users_core.config import BOT_TOKEN, postgres_url, scheduler, WEBHOOK_DOMAIN, WEBHOOK_PATH
+from users_core.config import (
+    BOT_TOKEN,
+    postgres_url,
+    scheduler,
+    WEBHOOK_DOMAIN,
+    WEBHOOK_PATH,
+)
 
 from db.base import Base
 from db.engine import create_async_engine, get_session_maker, proceed_models
@@ -92,6 +98,11 @@ from fastapi import FastAPI
 import uvicorn
 
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s",
+)
+
 bot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML)
 dp = Dispatcher(storage=MemoryStorage())
 
@@ -173,12 +184,3 @@ async def ping():
 async def bot_webhook(update):
     telegram_update = types.Update(**update)
     await dp.feed_update(bot=bot, update=telegram_update, session_maker=session_maker)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
-    )
-
-    uvicorn.run(app, host="127.0.0.1", port=8000)
